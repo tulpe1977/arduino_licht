@@ -27,8 +27,13 @@ int x;
 int y;
 int z;
 const int tasterPin = 2;     // Taster an Pin 2 angeschlossen
-int lichtmodus = 0;          // Variable für die verschiedenen festgelegten Farben
+volatile int lichtmodus = 0;          // Variable für die verschiedenen festgelegten Farben
 int tasterStatus = HIGH;      // Variable zu speichern des Tasterstatus
+
+// (Variablendeklarationen)
+const int debounce = 150; // Taster entprellen mit 150ms
+volatile unsigned long nowMillis;
+volatile unsigned long prevMillis;
 
 // Parameter 1 = number of pixels in strip
 // Parameter 2 = Arduino pin number (most are valid)
@@ -51,9 +56,18 @@ void setup()
   strip.begin();
   strip.setBrightness(200);
   strip.show(); // Initialize all pixels to 'off'
+  attachInterrupt(digitalPinToInterrupt(tasterPin), ChangeMode, RISING);
+
   
 }
 
+void ChangeMode() {
+    nowMillis = millis();
+    if (nowMillis - prevMillis > debounce) {
+        lichtmodus ++;
+        prevMillis = nowMillis;
+    }
+}
 void loop() {
   
   // Abfrage ob der Taster gedrückt ist
