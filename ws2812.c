@@ -1,7 +1,7 @@
 #include <Adafruit_NeoPixel.h>
 #include <math.h>
 
-#define N_PIXELS  107  // Number of pixels in strand
+#define N_PIXELS  107  // Number of pixels in strand -- Änderung
 #define MIC_PIN   A0  // Microphone is attached to this analog pin
 #define LED_PIN    6  // NeoPixel LED strand is connected to this pin
 #define SAMPLE_WINDOW   10  // Sample window for average level
